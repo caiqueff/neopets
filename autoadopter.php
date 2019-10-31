@@ -23,7 +23,7 @@ foreach($cookies[1] as $coookie){
     $cookie.=$coookie.";";
 }
 curl_close($login);
-
+unset($login);
 
 while(1){
     $cache = rand();
@@ -34,15 +34,17 @@ while(1){
 
     $pets = json_decode(curl_exec($listpets), true);
     curl_close($listpets);
-
-    if(count($pets) != "0"){
+    unset($listpets);
+    
+    if(count($pets) > 0){
         foreach($pets as $pet){
             $sum = $pet['str'] + $pet['def'];
-            ///////////////////////REQUIREMENTS HERE
-            if( strtolower($pet['species']) == "lupe" || //Species = lupe
-                strlen($pet['name']) == "2" || //Name with 2 digits
-                $sum > "200" || //Strength + defense > 200
-                (strtolower($pet['species']) == "quiggle" && strtolower($pet['color']) == "island")){ //Island Quiggle
+            /////////////////////// REQUIREMENTS FOR ADOPTION
+            if( strtolower($pet['species']) == "lupe" ||    //Species = lupe
+                strlen($pet['name']) == "2" ||              //Name with 2 digits
+                $sum > "200" ||                             //Strength + defense > 200
+                (strtolower($pet['species']) == "quiggle" && 
+                strtolower($pet['color']) == "island")){    //Island Quiggle
             ///////////////////////////////////////
                 adopt($pet['name']);
             }
@@ -66,7 +68,13 @@ function adopt($petname){
         ));
     curl_exec($adopt);
     curl_close($adopt);
-
-    die($petname." successfully adopted");
+    
+    if($adopt !== false)  {
+        echo ($petname." sucessfully adopted");
+    } else {
+        echo ("Failed to adopt");
+    }    
+    unset($adopt);
+    die();
 }
 ?>
