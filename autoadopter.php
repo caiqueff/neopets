@@ -43,8 +43,7 @@ while(1){
             if( strtolower($pet['species']) == "lupe" ||    //Species = lupe
                 strlen($pet['name']) == "2" ||              //Name with 2 digits
                 $sum > "200" ||                             //Strength + defense > 200
-                (strtolower($pet['species']) == "quiggle" && 
-                strtolower($pet['color']) == "island")){    //Island Quiggle
+                (strtolower($pet['species']) == "quiggle" && strtolower($pet['color']) == "island")){    //Island Quiggle
             ///////////////////////////////////////
                 adopt($pet['name']);
             }
